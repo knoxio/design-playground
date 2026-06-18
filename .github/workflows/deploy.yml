@@ -1,0 +1,110 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ci
+
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+      clients: ${{ steps.list.outputs.clients }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: check
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLOUDFLARE_API_TOKEN not set — skipping deploys"
+          fi
+      - id: list
+        run: echo "clients=$( (echo internal; ls clients) | jq -R -s -c 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
+
+  infra:
+    needs: [checks, preflight]
+    if: needs.preflight.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TF_VAR_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_STATE_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_STATE_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - id: changed
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # Diff the whole push, not just the last commit; fall back to
+          # HEAD^ when `before` is unusable (force push, branch creation).
+          if ! git cat-file -e "$BEFORE" 2>/dev/null; then BEFORE="HEAD^"; fi
+          if git diff --name-only "$BEFORE" HEAD | grep -qE '^infra/|/client\.yaml$'; then
+            echo "infra=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "infra=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: hashicorp/setup-terraform@v4
+        if: steps.changed.outputs.infra == 'true'
+      - if: steps.changed.outputs.infra == 'true'
+        env:
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+        run: terraform -chdir=infra init -input=false -backend-config="endpoints={s3=\"$R2_ENDPOINT\"}"
+      - if: steps.changed.outputs.infra == 'true'
+        run: terraform -chdir=infra apply -input=false -auto-approve
+
+  deploy:
+    needs: [checks, preflight, infra]
+    if: ${{ !cancelled() && needs.checks.result == 'success' && needs.preflight.outputs.ready == 'true' && contains(fromJSON('["success", "skipped"]'), needs.infra.result) }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ${{ fromJSON(needs.preflight.outputs.clients) }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build
+        run: |
+          if [ "${{ matrix.target }}" = "internal" ]; then
+            pnpm build
+          else
+            VITE_CLIENT="${{ matrix.target }}" pnpm build
+          fi
+      - name: Deploy
+        run: |
+          if [ "${{ matrix.target }}" = "internal" ]; then
+            PROJECT="hx-playground"
+          else
+            PROJECT="hx-preview-${{ matrix.target }}"
+          fi
+          pnpm exec wrangler pages deploy app/dist --project-name "$PROJECT" --branch main

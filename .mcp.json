@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hx-feedback": {
+      "command": "node",
+      "args": ["scripts/feedback-mcp.mjs"]
+    }
+  }
+}

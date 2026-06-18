@@ -1,0 +1,7 @@
+name: Rebrand
+question: Does a dark, electric identity fit a freight terminal product?
+status: active
+page: home
+theme: electric # experiment-scoped default — applies while viewing this experiment
+variants:
+  v1: First pass

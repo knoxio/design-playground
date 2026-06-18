@@ -1,0 +1,19 @@
+name: CI
+
+# PRs only — pushes to main run the same gate as the `checks` job in
+# deploy.yml, so a main push is never gated twice.
+on:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ci

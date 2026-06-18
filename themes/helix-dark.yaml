@@ -1,0 +1,36 @@
+# Helix dark — house dark counterpart to helix.yaml. Matches the chrome.
+colors:
+  background: "#141419"
+  foreground: "#F5F5F7"
+  surface: "#1D1D23" # sand-900
+  primary: "#39FF14" # sage neon — dark text on it
+  primary-foreground: "#07210B"
+  muted: "#2C2C34" # sand-800
+  muted-foreground: "#98989F" # sand-400
+  accent: "#122B16"
+  accent-foreground: "#C5FFD9" # sage-100
+  border: "#2C2C34"
+  ring: "#39FF14"
+  destructive: "#EF4444"
+  destructive-foreground: "#FFFFFF"
+type:
+  sans: '"DM Sans Variable", system-ui, sans-serif'
+  mono: ui-monospace, SFMono-Regular, Menlo, monospace
+  numbers: proportional
+  scale:
+    xs: { size: 0.75rem, lineHeight: 1rem }
+    sm: { size: 0.875rem, lineHeight: 1.25rem }
+    base: { size: 1rem, lineHeight: 1.5rem }
+    lg: { size: 1.125rem, lineHeight: 1.75rem }
+    xl: { size: 1.25rem, lineHeight: 1.75rem }
+    "2xl": { size: 1.5rem, lineHeight: 2rem }
+    "3xl": { size: 1.875rem, lineHeight: 2.25rem }
+density: regular
+radii:
+  sm: 0.25rem
+  md: 0.5rem
+  lg: 0.75rem
+shadows:
+  sm: 0 1px 2px 0 rgb(0 0 0 / 0.4)
+  md: 0 4px 8px -2px rgb(0 0 0 / 0.5)
+  lg: 0 10px 20px -4px rgb(0 0 0 / 0.55)

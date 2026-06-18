@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@source "../../../packages/ui/src";
+@source "../../../clients";
+
+/* :root tokens style the CHROME only (Helix brand: dark sand + sage green).
+   The prototype canvas always overrides every token via ClientTheme. */
+@theme {
+  --color-background: #141419;
+  --color-foreground: #f5f5f7;
+  --color-surface: #1d1d23;
+  --color-primary: #39ff14;
+  --color-primary-foreground: #07210b;
+  --color-muted: #2c2c34;
+  --color-muted-foreground: #98989f;
+  --color-accent: #122b16;
+  --color-accent-foreground: #c5ffd9;
+  --color-border: #2c2c34;
+  --color-ring: #39ff14;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --font-sans: "DM Sans Variable", system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --animate-helix-strand-a: helix-strand-a 4s ease-in-out infinite;
+  --animate-helix-strand-b: helix-strand-b 4s ease-in-out infinite;
+  --animate-pop-up: pop-up 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-down: slide-down 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-in: fade-in 0.18s ease-out;
+
+  @keyframes helix-strand-a {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(6px);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+    75% {
+      transform: translateX(-6px);
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes helix-strand-b {
+    0% {
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+    25% {
+      transform: translateX(-6px);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    75% {
+      transform: translateX(6px);
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+  }
+  @keyframes pop-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+    }
+  }
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}

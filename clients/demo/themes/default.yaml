@@ -1,0 +1,36 @@
+# Demo Co — warm, rounded, teal primary (see CLAUDE.md brief)
+colors:
+  background: "#fffbf5"
+  foreground: "#292524"
+  surface: "#ffffff"
+  primary: "#0d9488" # teal — friendly, not corporate
+  primary-foreground: "#ffffff"
+  muted: "#f5f0e8"
+  muted-foreground: "#857c70"
+  accent: "#ccfbf1"
+  accent-foreground: "#115e59"
+  border: "#e8e0d4"
+  ring: "#0d9488"
+  destructive: "#dc2626"
+  destructive-foreground: "#ffffff"
+type:
+  sans: Avenir, system-ui, sans-serif
+  mono: ui-monospace, SFMono-Regular, Menlo, monospace
+  numbers: proportional
+  scale:
+    xs: { size: 0.75rem, lineHeight: 1rem }
+    sm: { size: 0.875rem, lineHeight: 1.25rem }
+    base: { size: 1rem, lineHeight: 1.5rem }
+    lg: { size: 1.125rem, lineHeight: 1.75rem }
+    xl: { size: 1.25rem, lineHeight: 1.75rem }
+    "2xl": { size: 1.5rem, lineHeight: 2rem }
+    "3xl": { size: 1.875rem, lineHeight: 2.25rem }
+density: spacious # generous whitespace is part of the warm look
+radii:
+  sm: 0.5rem
+  md: 1rem # generous rounding, ditto
+  lg: 1.5rem
+shadows:
+  sm: 0 1px 2px 0 rgb(0 0 0 / 0.04)
+  md: 0 4px 8px -2px rgb(0 0 0 / 0.08)
+  lg: 0 12px 24px -4px rgb(0 0 0 / 0.1)

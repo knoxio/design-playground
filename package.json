@@ -1,0 +1,52 @@
+{
+  "name": "hx-playground",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @helix/app dev",
+    "build": "pnpm --filter @helix/app build",
+    "lint": "oxlint .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "boundaries": "depcruise --config .dependency-cruiser.cjs app/src packages clients",
+    "lint:skills": "node scripts/lint-skills.mjs",
+    "typecheck": "tsc --noEmit -p app && tsc --noEmit -p app/tsconfig.node.json && tsc --noEmit -p functions",
+    "promotion-candidates": "grep -rl 'export const promoteCandidate = true' clients/*/components 2>/dev/null || echo 'no promotion candidates'",
+    "format:dir": "oxfmt",
+    "test": "pnpm --filter @helix/app test",
+    "test:functions": "vitest run --config functions/vitest.config.mts",
+    "test:scripts": "vitest run --config scripts/vitest.config.mts",
+    "new-client": "node scripts/new-client.mjs",
+    "test:e2e": "pnpm --filter @helix/app exec playwright test --config ../playwright.config.ts",
+    "test:play": "pnpm --filter @helix/app exec playwright test --config ../playwright.config.ts play.spec.ts",
+    "verify:scoped": "node scripts/verify-scoped-build.mjs",
+    "handoff": "node scripts/handoff.mjs",
+    "a11y": "node scripts/a11y.mjs",
+    "dtcg-to-theme": "node scripts/dtcg-to-theme.mjs",
+    "infra:plan": "terraform -chdir=infra plan",
+    "infra:apply": "terraform -chdir=infra apply",
+    "prepare": "husky",
+    "ci": "pnpm lint && pnpm lint:skills && pnpm format:check && pnpm boundaries && pnpm typecheck && pnpm test && pnpm test:functions && pnpm test:scripts && pnpm build && pnpm verify:scoped",
+    "ci:fix": "pnpm format && oxlint --fix . && pnpm run ci"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.16.15",
+    "@cloudflare/workers-types": "^4.20260609.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axe-core": "^4.12.0",
+    "dependency-cruiser": "^17.4.3",
+    "husky": "^9.1.7",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "playwright-core": "^1.60.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8",
+    "wrangler": "^4.99.0",
+    "yaml": "^2.9.0",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.5.3"
+}

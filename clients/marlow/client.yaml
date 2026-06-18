@@ -1,0 +1,9 @@
+name: Marlow Freight
+description: Customer portal prototype — quotes, consignment tracking, invoices
+defaultTheme: default
+preview: # access list for the deployed preview (PRD-08); helix emails always pass
+  emails:
+    - sarah@marlowfreight.example
+    - dean@marlowfreight.example
+  domains:
+    - marlowfreight.example

@@ -1,0 +1,7 @@
+name: Quote flow
+question: Single dense form (ops lead), or a guided wizard (MD)?
+status: active
+page: new-quote
+variants:
+  juniper: Dense form
+  banksia: Guided wizard

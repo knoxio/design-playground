@@ -1,0 +1,12 @@
+sha=$(git rev-parse HEAD)
+tmp=$(mktemp -d /tmp/hx-prepush.XXXXXX)
+echo "pre-push: gating commit $sha in a clean worktree (what CI will see)"
+git worktree add --detach "$tmp" "$sha" > /dev/null 2>&1 || exit 1
+(
+  cd "$tmp" &&
+  pnpm install --frozen-lockfile --prefer-offline --silent &&
+  pnpm run ci
+)
+status=$?
+git worktree remove --force "$tmp" > /dev/null 2>&1
+exit $status

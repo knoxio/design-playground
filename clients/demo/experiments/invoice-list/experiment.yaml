@@ -1,0 +1,7 @@
+name: Invoice list
+question: Friendly cards, or a dense table?
+status: active
+page: home
+variants:
+  juniper: Card list
+  banksia: Dense table
