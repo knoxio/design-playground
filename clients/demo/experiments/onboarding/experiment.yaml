@@ -1,0 +1,6 @@
+name: Onboarding
+question: What should a new Demo Co user see first?
+status: active
+page: welcome
+variants:
+  v1: First pass

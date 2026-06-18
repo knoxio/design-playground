@@ -1,0 +1,10 @@
+packages:
+  - app
+  - packages/*
+allowBuilds:
+  # wrangler's toolchain: esbuild links its platform binary, workerd is the
+  # local Workers runtime. sharp stays blocked — nothing here transforms
+  # images at deploy time.
+  esbuild: true
+  workerd: true
+  sharp: false

@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@design/ui": ["./packages/ui/src/index.ts"],
+      "@design/ui/icons": ["./packages/ui/src/icons.ts"],
+      "#clients/*": ["./clients/*"]
+    }
+  },
+  "include": ["app/src", "clients", "packages/ui/src"]
+}

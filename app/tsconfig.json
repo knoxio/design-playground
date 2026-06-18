@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@design/ui": ["../packages/ui/src/index.ts"],
+      "@design/ui/icons": ["../packages/ui/src/icons.ts"],
+      "#clients/*": ["../clients/*"],
+      "react": ["./node_modules/@types/react"],
+      "react/jsx-runtime": ["./node_modules/@types/react/jsx-runtime"],
+      "react-dom/client": ["./node_modules/@types/react-dom/client"]
+    },
+    "types": ["vite/client"]
+  },
+  "include": ["src", "../clients", "../packages/ui/src"]
+}

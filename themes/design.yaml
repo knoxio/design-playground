@@ -1,0 +1,38 @@
+# Design standard — the house default every client starts from.
+# Sand neutrals + sage green, DM Sans. Mirrors designTokens in
+# packages/ui/src/tokens.ts (the code-level fallback); keep in sync.
+colors:
+  background: "#F5F5F7" # sand-50
+  foreground: "#1D1D23" # sand-900
+  surface: "#FFFFFF"
+  primary: "#15B800" # sage-600 — dark text on it, not white
+  primary-foreground: "#07210B"
+  muted: "#E8E8ED" # sand-100
+  muted-foreground: "#5A5A64" # sand-600
+  accent: "#EDFFF4" # sage-50
+  accent-foreground: "#0E8C00" # sage-700
+  border: "#D2D2D9" # sand-200
+  ring: "#15B800"
+  destructive: "#DC2626"
+  destructive-foreground: "#FFFFFF"
+type:
+  sans: '"DM Sans Variable", system-ui, sans-serif'
+  mono: ui-monospace, SFMono-Regular, Menlo, monospace
+  numbers: proportional
+  scale:
+    xs: { size: 0.75rem, lineHeight: 1rem }
+    sm: { size: 0.875rem, lineHeight: 1.25rem }
+    base: { size: 1rem, lineHeight: 1.5rem }
+    lg: { size: 1.125rem, lineHeight: 1.75rem }
+    xl: { size: 1.25rem, lineHeight: 1.75rem }
+    "2xl": { size: 1.5rem, lineHeight: 2rem }
+    "3xl": { size: 1.875rem, lineHeight: 2.25rem }
+density: regular
+radii:
+  sm: 0.25rem
+  md: 0.5rem
+  lg: 0.75rem
+shadows:
+  sm: 0 1px 2px 0 rgb(29 29 35 / 0.05)
+  md: 0 4px 6px -1px rgb(29 29 35 / 0.1), 0 2px 4px -2px rgb(29 29 35 / 0.1)
+  lg: 0 10px 15px -3px rgb(29 29 35 / 0.1), 0 4px 6px -4px rgb(29 29 35 / 0.1)

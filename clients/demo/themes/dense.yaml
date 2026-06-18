@@ -1,0 +1,37 @@
+# Alternate direction: dense and utilitarian — "more terminal than brochure".
+# Navy/amber, tight spacing, tabular numbers for anything monetary.
+colors:
+  background: "#f6faf7" # green-cast near-white, same lightness as a slate wash
+  foreground: "#0f172a"
+  surface: "#ffffff"
+  primary: "#1b2a4a" # navy
+  primary-foreground: "#ffffff"
+  muted: "#ebf2ed" # green-cast to match the background
+  muted-foreground: "#64748b"
+  accent: "#fef3c7" # amber wash
+  accent-foreground: "#92400e"
+  border: "#d8e3da" # green-cast to match the background
+  ring: "#f59e0b" # amber focus — visible against the navy
+  destructive: "#b91c1c"
+  destructive-foreground: "#ffffff"
+type:
+  sans: system-ui, -apple-system, sans-serif
+  mono: ui-monospace, SFMono-Regular, Menlo, monospace
+  numbers: tabular # money and IDs align in tables
+  scale:
+    xs: { size: 0.6875rem, lineHeight: 0.875rem }
+    sm: { size: 0.8125rem, lineHeight: 1.125rem }
+    base: { size: 0.9375rem, lineHeight: 1.375rem }
+    lg: { size: 1.0625rem, lineHeight: 1.5rem }
+    xl: { size: 1.1875rem, lineHeight: 1.625rem }
+    "2xl": { size: 1.375rem, lineHeight: 1.75rem }
+    "3xl": { size: 1.75rem, lineHeight: 2rem }
+density: compact
+radii: # rounded enough to soften the cards without losing the dense feel
+  sm: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+shadows:
+  sm: 0 1px 1px 0 rgb(15 23 42 / 0.06)
+  md: 0 2px 4px -1px rgb(15 23 42 / 0.08)
+  lg: 0 6px 12px -2px rgb(15 23 42 / 0.1)

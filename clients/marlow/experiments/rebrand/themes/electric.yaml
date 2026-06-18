@@ -1,0 +1,37 @@
+# Experiment-scoped theme: only exposed while viewing the rebrand experiment.
+# Dark terminal look with electric green — the MD's "what if we went bold" ask.
+colors:
+  background: "#0b1220"
+  foreground: "#e6eefb"
+  surface: "#141d31"
+  primary: "#2fe08a" # electric green
+  primary-foreground: "#06281a"
+  muted: "#1b2640"
+  muted-foreground: "#8da2c0"
+  accent: "#11352a"
+  accent-foreground: "#52e9a4"
+  border: "#27345a"
+  ring: "#2fe08a"
+  destructive: "#ff5c5c"
+  destructive-foreground: "#2b0707"
+type:
+  sans: system-ui, -apple-system, sans-serif
+  mono: ui-monospace, SFMono-Regular, Menlo, monospace
+  numbers: tabular
+  scale:
+    xs: { size: 0.6875rem, lineHeight: 0.875rem }
+    sm: { size: 0.8125rem, lineHeight: 1.125rem }
+    base: { size: 0.9375rem, lineHeight: 1.375rem }
+    lg: { size: 1.0625rem, lineHeight: 1.5rem }
+    xl: { size: 1.1875rem, lineHeight: 1.625rem }
+    "2xl": { size: 1.375rem, lineHeight: 1.75rem }
+    "3xl": { size: 1.75rem, lineHeight: 2rem }
+density: compact
+radii:
+  sm: 0.125rem
+  md: 0.25rem
+  lg: 0.5rem
+shadows:
+  sm: 0 1px 2px 0 rgb(0 0 0 / 0.4)
+  md: 0 4px 8px -2px rgb(0 0 0 / 0.5)
+  lg: 0 10px 20px -4px rgb(0 0 0 / 0.6)
