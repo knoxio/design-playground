@@ -59,16 +59,27 @@ server.registerTool(
   {
     description:
       "List feedback comment threads for a client, with their messages. " +
-      "Optionally filter by status (open/applied/rejected/outdated) or route.",
+      "Defaults to OPEN threads only — applied/rejected/outdated are hidden to save " +
+      "tokens. Pass a status to filter to one, or includeResolved:true to return all.",
     inputSchema: {
       client: z.string().describe("Client id, e.g. marlow"),
-      status: z.enum(["open", "applied", "rejected", "outdated"]).optional(),
+      status: z
+        .enum(["open", "applied", "rejected", "outdated"])
+        .optional()
+        .describe("Filter to a specific status. Omit for the default (open only)."),
+      includeResolved: z.boolean().optional().describe("Return every status, not just open."),
+      since: z
+        .string()
+        .optional()
+        .describe("ISO timestamp — only threads with a new thread or message after it."),
       route: z.string().optional().describe("Filter to one route, e.g. /c/marlow/p/home"),
     },
   },
-  async ({ client, status, route }) => {
+  async ({ client, status, includeResolved, since, route }) => {
     const params = new URLSearchParams({ client });
-    if (status) params.set("status", status);
+    const effectiveStatus = status ?? (includeResolved ? undefined : "open");
+    if (effectiveStatus) params.set("status", effectiveStatus);
+    if (since) params.set("since", since);
     if (route) params.set("route", route);
     return asResult(await api(`/threads?${params}`));
   },

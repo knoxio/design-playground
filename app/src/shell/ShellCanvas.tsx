@@ -56,7 +56,7 @@ export function ShellCanvas({
     <>
       <main data-dp-canvas className="h-full min-w-0 flex-1 overflow-y-auto">
         <ClientTheme tokens={tokens}>
-          <div key={route} className="min-h-full animate-fade-in">
+          <div key={route} className="flex min-h-full flex-1 flex-col animate-fade-in">
             <Outlet />
           </div>
         </ClientTheme>

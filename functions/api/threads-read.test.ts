@@ -69,4 +69,23 @@ describe("listThreads", () => {
     });
     expect(ids(res.json.threads)).toEqual([]);
   });
+
+  it("filters by since — only threads created after the timestamp", async () => {
+    const res = await call("/api/threads?client=acme&since=2026-01-01T00:00:01.500Z", {
+      headers: TEAM_HEADERS,
+    });
+    expect(ids(res.json.threads)).toEqual(["t2"]);
+  });
+
+  it("since also returns an older thread that has a newer message", async () => {
+    await db()
+      .prepare(
+        "INSERT INTO messages (id, thread_id, author, body, created_at) VALUES ('m-late', 't1', 'seed', 'late', '2026-01-01T00:00:05.000Z')",
+      )
+      .run();
+    const res = await call("/api/threads?client=acme&since=2026-01-01T00:00:04.000Z", {
+      headers: TEAM_HEADERS,
+    });
+    expect(ids(res.json.threads)).toEqual(["t1"]);
+  });
 });

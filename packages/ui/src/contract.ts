@@ -6,6 +6,13 @@
 export type PageMeta = {
   title: string;
   order?: number;
+  /**
+   * Flow steps only: set `false` on a step to drop the flow's bottom Back/Next
+   * bar (the top stepper still navigates). Use when the page provides its own
+   * stage navigation, so the app chrome would be redundant. A flow hides the bar
+   * if any of its steps opts out. Defaults to showing it.
+   */
+  flowButtons?: boolean;
 };
 
 /**

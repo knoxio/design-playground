@@ -23,7 +23,7 @@ export function ClientTheme({ tokens, children }: { tokens: TokenSet; children: 
           fontFamily: "var(--font-sans)",
           fontVariantNumeric: tokens.type.numbers === "tabular" ? "tabular-nums" : "normal",
         }}
-        className="min-h-full bg-background text-foreground transition-colors duration-300"
+        className="flex min-h-full flex-col bg-background text-foreground transition-colors duration-300"
       >
         {children}
       </div>

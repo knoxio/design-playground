@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { glass } from "../glass";
 import { findTarget, resolveThread, type Target } from "./anchors";
 import {
@@ -90,8 +90,17 @@ function NoteBox({
 }) {
   const [note, setNote] = useState("");
   const [name, setName] = useState("");
+  const noteRef = useRef<HTMLTextAreaElement>(null);
+  // Focus the note once on open — not on every keystroke, which would steal
+  // focus back from the name field as you type it.
+  useEffect(() => {
+    noteRef.current?.focus();
+  }, []);
+  const submitting = useRef(false);
   const ready = note.trim() !== "" && (!needsName || name.trim() !== "");
   const submit = () => {
+    if (!ready || submitting.current) return; // guard against double-submit
+    submitting.current = true;
     if (needsName) onNamed(name.trim());
     onSubmit(note.trim());
   };
@@ -104,7 +113,7 @@ function NoteBox({
       </p>
       {needsName ? <NameField value={name} onChange={setName} /> : null}
       <textarea
-        ref={(el) => el?.focus()}
+        ref={noteRef}
         value={note}
         onChange={(e) => setNote(e.target.value)}
         onKeyDown={(e) => {
