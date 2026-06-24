@@ -73,23 +73,38 @@ export function findTarget(x: number, y: number): Target | null {
   return null;
 }
 
+/**
+ * Pick one element for a stored selector. A repeated component shares one
+ * `data-dp-source` line across every instance, so a bare querySelector collapses
+ * them onto the first — every comment on a list row would stack on row one. When
+ * several match, prefer the instance whose text excerpt matches the one captured
+ * at comment time, so each thread resolves to its own row.
+ */
+function pick(selector: string, text?: string): Element | null {
+  let els: Element[];
+  try {
+    els = [...document.querySelectorAll(selector)];
+  } catch {
+    return null;
+  }
+  if (els.length <= 1) return els[0] ?? null;
+  if (text) return els.find((el) => excerpt(el) === text) ?? els[0] ?? null;
+  return els[0] ?? null;
+}
+
 /** The live element a stored thread points at on the current page, if any. */
 export function resolveThread(thread: Thread): Element | null {
   const anchor = parseAnchor(thread);
-  try {
-    switch (anchor?.kind) {
-      case "source":
-        return document.querySelector(`[data-dp-source="${anchor.source}"]`);
-      case "token":
-        return document.querySelector(`[data-dp-token="${anchor.token}"]`);
-      case "kit":
-        return document.querySelector(`[data-dp-kit="${anchor.component}"]`);
-      case "selector":
-        return document.querySelector(anchor.selector);
-      default:
-        return null;
-    }
-  } catch {
-    return null;
+  switch (anchor?.kind) {
+    case "source":
+      return pick(`[data-dp-source="${anchor.source}"]`, anchor.text);
+    case "token":
+      return pick(`[data-dp-token="${anchor.token}"]`, anchor.text);
+    case "kit":
+      return pick(`[data-dp-kit="${anchor.component}"]`, anchor.text);
+    case "selector":
+      return pick(anchor.selector, anchor.text);
+    default:
+      return null;
   }
 }

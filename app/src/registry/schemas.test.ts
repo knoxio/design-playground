@@ -120,6 +120,11 @@ describe("pageMetaSchema", () => {
   it("rejects a non-numeric order", () => {
     expect(pageMetaSchema.safeParse({ title: "Dashboard", order: "first" }).success).toBe(false);
   });
+
+  it("accepts an optional boolean flowButtons", () => {
+    expect(pageMetaSchema.safeParse({ title: "Ground", flowButtons: false }).success).toBe(true);
+    expect(pageMetaSchema.safeParse({ title: "Ground", flowButtons: "no" }).success).toBe(false);
+  });
 });
 
 describe("themeSchema", () => {

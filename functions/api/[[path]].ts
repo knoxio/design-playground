@@ -97,6 +97,7 @@ function authorName(who: Identity, body: Record<string, unknown>): string {
 async function listThreads(env: Env, client: string, url: URL): Promise<Response> {
   const status = url.searchParams.get("status");
   const route = url.searchParams.get("route");
+  const since = url.searchParams.get("since");
   let query = "SELECT * FROM threads WHERE client = ?";
   const params: string[] = [client];
   if (status !== null) {
@@ -106,6 +107,11 @@ async function listThreads(env: Env, client: string, url: URL): Promise<Response
   if (route !== null) {
     query += " AND route = ?";
     params.push(route);
+  }
+  if (since !== null) {
+    // Activity since a timestamp: a new thread, or a new message on any thread.
+    query += " AND (created_at > ? OR id IN (SELECT thread_id FROM messages WHERE created_at > ?))";
+    params.push(since, since);
   }
   query += " ORDER BY created_at";
   const threads = await env.DP_DB.prepare(query)

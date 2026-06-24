@@ -85,6 +85,7 @@ exactly):
 - `/apply-feedback` — apply a `[playground-feedback v2]` batch from the
   inspect overlay (press `i` in the app, pin elements, "Copy for Claude")
 - `/feedback-from-linear` — ingest Linear issues into a client's feedback threads
+- `/monitor-feedback` — event-driven watcher that auto-applies comments as they arrive
 - `/promote-component` — client component → shared kit; core-owner PR
 - `/handoff` — the engagement's exit package (drives `pnpm handoff`;
   judgment artifacts in the skill, mechanics in the script)

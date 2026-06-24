@@ -11,11 +11,14 @@ export function Flow({
   stepId,
   state,
   hrefForStep,
+  showButtons = true,
 }: {
   flow: PageEntry;
   stepId: string;
   state?: string | null;
   hrefForStep: (stepId: string) => string;
+  /** When false, the bottom Back/Next bar is omitted; the stepper still navigates. */
+  showButtons?: boolean;
 }) {
   const navigate = useNavigate();
   const steps = flow.steps ?? [];
@@ -61,24 +64,26 @@ export function Flow({
       <div className="min-h-0 flex-1 overflow-y-auto">
         <ActiveStep />
       </div>
-      <div className="flex justify-between border-t border-border p-4">
-        <button
-          type="button"
-          disabled={!prev}
-          onClick={prev ? () => void navigate(hrefForStep(prev.id)) : undefined}
-          className="rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted disabled:opacity-40"
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          disabled={!next}
-          onClick={next ? () => void navigate(hrefForStep(next.id)) : undefined}
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 disabled:opacity-40"
-        >
-          Next
-        </button>
-      </div>
+      {showButtons ? (
+        <div className="flex justify-between border-t border-border p-4">
+          <button
+            type="button"
+            disabled={!prev}
+            onClick={prev ? () => void navigate(hrefForStep(prev.id)) : undefined}
+            className="rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted disabled:opacity-40"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            disabled={!next}
+            onClick={next ? () => void navigate(hrefForStep(next.id)) : undefined}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

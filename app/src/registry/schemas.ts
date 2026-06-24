@@ -34,6 +34,7 @@ export const experimentYamlSchema = z.object({
 export const pageMetaSchema: z.ZodType<PageMeta> = z.object({
   title: z.string().min(1),
   order: z.number().optional(),
+  flowButtons: z.boolean().optional(),
 });
 
 /**

@@ -9,6 +9,12 @@ variable "team_email_domain" {
   default     = "example.com"
 }
 
+variable "team_emails" {
+  description = "Individual emails that pass Access on every surface, alongside team_email_domain"
+  type        = list(string)
+  default     = []
+}
+
 variable "access_contact" {
   description = "Shown on the Access denied page so stakeholders know whom to ask"
   type        = string

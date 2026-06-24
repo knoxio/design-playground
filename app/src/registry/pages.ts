@@ -47,6 +47,7 @@ function parsePageModule(
     title: meta.data.title,
     order: meta.data.order ?? Number.MAX_SAFE_INTEGER,
     component: component as ComponentType,
+    flowButtons: meta.data.flowButtons,
     states: parseStates(mod.states, path, errors),
     play: typeof mod.play === "function" ? (mod.play as PlayTest) : undefined,
     experiments: [],
@@ -95,6 +96,7 @@ function collectFlowPages(modules: Modules, prefix: string, errors: string[]): P
     title: prettifyId(flowId),
     order: Math.min(...steps.map((s) => s.order)),
     steps: steps.toSorted(byOrder),
+    flowButtons: steps.every((s) => s.flowButtons !== false),
     experiments: [],
   }));
 }

@@ -17,6 +17,10 @@ export type PageEntry = {
   component?: ComponentType;
   /** Ordered steps when this page is a flow; absent for a leaf page. */
   steps?: PageEntry[];
+  /** Flow chrome: when `false`, the flow renders without the bottom Back/Next
+   *  bar (the stepper still navigates). On a flow entry it is the aggregate of
+   *  its steps; on a step it mirrors that step's `meta.flowButtons`. */
+  flowButtons?: boolean;
   /** Named screen states (ADR-0011): a map of state id → render thunk. The
    *  default render is the implicit `default` state and is not listed here. */
   states?: Record<string, ComponentType>;

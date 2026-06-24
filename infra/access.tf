@@ -8,15 +8,16 @@ resource "cloudflare_zero_trust_access_policy" "design" {
   name       = "team-emails"
   decision   = "allow"
 
-  include = [{
-    email_domain = { domain = var.team_email_domain }
-  }]
+  include = concat(
+    [{ email_domain = { domain = var.team_email_domain } }],
+    [for e in var.team_emails : { email = { email = e } }],
+  )
 }
 
 resource "cloudflare_zero_trust_access_application" "internal_app" {
   account_id          = var.account_id
   name                = "design-playground (internal)"
-  domain              = "${cloudflare_pages_project.internal.name}.pages.dev"
+  domain              = cloudflare_pages_project.internal.subdomain
   type                = "self_hosted"
   session_duration    = "24h"
   custom_deny_message = var.access_contact
@@ -42,6 +43,7 @@ resource "cloudflare_zero_trust_access_policy" "preview" {
 
   include = concat(
     [{ email_domain = { domain = var.team_email_domain } }],
+    [for e in var.team_emails : { email = { email = e } }],
     [for d in each.value.domains : { email_domain = { domain = d } }],
     [for e in each.value.emails : { email = { email = e } }],
   )
@@ -52,7 +54,7 @@ resource "cloudflare_zero_trust_access_application" "preview_app" {
 
   account_id          = var.account_id
   name                = "design-preview-${each.key}"
-  domain              = "${cloudflare_pages_project.preview[each.key].name}.pages.dev"
+  domain              = cloudflare_pages_project.preview[each.key].subdomain
   type                = "self_hosted"
   session_duration    = "24h"
   custom_deny_message = var.access_contact

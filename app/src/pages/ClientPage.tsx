@@ -33,7 +33,15 @@ export function ClientPage() {
       if (!first) return <p className="p-8 text-muted-foreground">Flow has no steps.</p>;
       return <Navigate replace to={`${base}/${first.id}`} />;
     }
-    return <Flow flow={page} stepId={stepId} state={state} hrefForStep={(s) => `${base}/${s}`} />;
+    return (
+      <Flow
+        flow={page}
+        stepId={stepId}
+        state={state}
+        hrefForStep={(s) => `${base}/${s}`}
+        showButtons={page.flowButtons !== false}
+      />
+    );
   }
 
   const Render = renderOf(page, state);

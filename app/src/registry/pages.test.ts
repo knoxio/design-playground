@@ -56,6 +56,30 @@ describe("collectPages", () => {
     expect(flow?.steps?.map((s) => s.id)).toEqual(["lane", "freight"]);
   });
 
+  it("defaults a flow to showing the Back/Next bar", () => {
+    const flowModules: Mod = {
+      "../../clients/acme/pages/wizard/a.tsx": leaf("A", 1),
+      "../../clients/acme/pages/wizard/b.tsx": leaf("B", 2),
+    };
+    const { pages } = run({ flowModules });
+    expect(pages[0]?.flowButtons).toBe(true);
+  });
+
+  it("aggregates flowButtons:false to the flow when any step opts out", () => {
+    const flowModules: Mod = {
+      "../../clients/acme/pages/run/a.tsx": leaf("A", 1),
+      "../../clients/acme/pages/run/b.tsx": {
+        default: () => null,
+        meta: { title: "B", order: 2, flowButtons: false },
+      },
+    };
+    const { pages, errors } = run({ flowModules });
+    expect(errors).toEqual([]);
+    expect(pages[0]?.flowButtons).toBe(false);
+    expect(pages[0]?.steps?.find((s) => s.id === "a")?.flowButtons).toBeUndefined();
+    expect(pages[0]?.steps?.find((s) => s.id === "b")?.flowButtons).toBe(false);
+  });
+
   it("orders steps by meta.order then filename", () => {
     const flowModules: Mod = {
       "../../clients/acme/pages/onboarding/zeta.tsx": leaf("Zeta", 1),
